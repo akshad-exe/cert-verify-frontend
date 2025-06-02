@@ -1,7 +1,7 @@
 import { Link } from 'react-router-dom';
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
-import { Slide, Fade, Zoom } from 'react-awesome-reveal';
+import { Fade, Zoom } from 'react-awesome-reveal';
 import { ModeToggle } from "@/components/mode-toggle";
 import { Award, CheckCircle, Clock, Shield, Search, ArrowRight, Sparkles, BookOpen, Globe } from 'lucide-react';
 import { Card, CardContent } from "@/components/ui/card";
