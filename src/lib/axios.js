@@ -1,7 +1,9 @@
 import axios from 'axios';
 
 // Configure Axios base URL (optional but recommended)
-// axios.defaults.baseURL = import.meta.env.VITE_API_URL; // Assuming you have a VITE_API_URL in your .env file
+// Assuming you have a VITE_API_URL in your .env file
+
+axios.defaults.baseURL = import.meta.env.VITE_API_URL;
 
 // Add a request interceptor
 axios.interceptors.request.use(
