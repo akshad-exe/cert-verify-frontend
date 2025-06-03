@@ -34,7 +34,7 @@ function AdminEditCertificate() {
     const fetchCertificate = async () => {
       try {
         setLoading(true);
-        const token = localStorage.getItem('adminToken');
+        const token = localStorage.getItem('jwtToken');
         const response = await axios.get(`/api/admin/certificates/${id}`, {
           headers: { Authorization: `Bearer ${token}` }
         });
@@ -73,7 +73,7 @@ function AdminEditCertificate() {
       setSubmitting(true);
       setError(null);
       
-      const token = localStorage.getItem('adminToken');
+      const token = localStorage.getItem('jwtToken');
       await axios.put(`/api/admin/certificates/${id}`, {
         certificate_id: certificateId,
         student_name: studentName,

@@ -93,10 +93,10 @@ function AdminListCertificates() {
 
   // Function to fetch certificates
   const fetchCertificates = async () => {
+    setLoading(true);
+    setError(null);
     try {
-      setLoading(true);
-      setError(null); // Clear previous errors
-      const token = localStorage.getItem('adminToken');
+      const token = localStorage.getItem('jwtToken');
       const response = await axios.get('/api/admin/certificates', {
         headers: { Authorization: `Bearer ${token}` }
       });
@@ -123,7 +123,7 @@ function AdminListCertificates() {
 
     try {
       setIsDeleting(true);
-      const token = localStorage.getItem('adminToken');
+      const token = localStorage.getItem('jwtToken');
       await axios.delete(`/api/admin/certificates/${certificateToDeleteId}`, {
         headers: { Authorization: `Bearer ${token}` }
       });
