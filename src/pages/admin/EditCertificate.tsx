@@ -13,7 +13,7 @@ import {
 } from "@/components/ui/card";
 import { Fade, Zoom } from 'react-awesome-reveal';
 import { FileText, User, Award, Calendar, Save, ArrowLeft, Loader2, CheckCircle2 } from 'lucide-react';
-import axios from 'axios';
+import { getCertificateById, updateCertificate } from '../../api/admin';
 import { toast } from 'react-hot-toast';
 
 function AdminEditCertificate() {
@@ -34,10 +34,12 @@ function AdminEditCertificate() {
     const fetchCertificate = async () => {
       try {
         setLoading(true);
-        const token = localStorage.getItem('jwtToken');
-        const response = await axios.get(`/api/admin/certificates/${id}`, {
-          headers: { Authorization: `Bearer ${token}` }
-        });
+        if (!id) {
+          setError('Certificate ID is missing.');
+          setLoading(false);
+          return;
+        }
+        const response = await getCertificateById(id);
         
         const certificate = response.data;
         
@@ -73,14 +75,16 @@ function AdminEditCertificate() {
       setSubmitting(true);
       setError(null);
       
-      const token = localStorage.getItem('jwtToken');
-      await axios.put(`/api/admin/certificates/${id}`, {
+      if (!id) {
+        setError('Certificate ID is missing for update.');
+        setSubmitting(false);
+        return;
+      }
+      await updateCertificate(id, {
         certificate_id: certificateId,
         student_name: studentName,
         awarded_for: awardedFor,
         issue_date: issueDate
-      }, {
-        headers: { Authorization: `Bearer ${token}` }
       });
       
       setSuccess(true);

@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import axios from 'axios';
+import { getDashboardData } from '../../api/admin';
 import {
   Card,
   CardContent,
@@ -63,14 +63,14 @@ function AdminDashboard() {
     try {
       setLoading(true);
       setError(null); // Clear previous errors
-      const response = await axios.get('/api/admin/certificates');
+      const response = await getDashboardData();
       const certificates: Certificate[] = response.data; // Assuming backend returns an array of certificates
       setTotalCertificates(certificates.length);
       // Display the last 5 certificates as recent additions
       setRecentCertificates(certificates.slice(-5)); // Adjust slice number as needed
-    } catch (err) {
+    } catch (err: any) {
       console.error('Error fetching dashboard data:', err);
-      if (axios.isAxiosError(err) && err.response) {
+      if (err.response) {
         setError(err.response.data.message || 'Failed to fetch dashboard data.');
       } else {
         setError('An unexpected error occurred while fetching dashboard data.');

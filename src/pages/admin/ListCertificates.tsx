@@ -28,7 +28,7 @@ import {
 } from "@/components/ui/alert-dialog";
 import { Fade, Slide } from 'react-awesome-reveal';
 import { Search, Edit, Trash2, FileText, User, Calendar, Award, AlertTriangle, Loader2, RefreshCw } from 'lucide-react';
-import axios from 'axios';
+import { getCertificates, deleteCertificate } from '../../api/admin';
 import { Link } from 'react-router-dom';
 import { toast } from 'react-hot-toast';
 
@@ -96,10 +96,7 @@ function AdminListCertificates() {
     setLoading(true);
     setError(null);
     try {
-      const token = localStorage.getItem('jwtToken');
-      const response = await axios.get('/api/admin/certificates', {
-        headers: { Authorization: `Bearer ${token}` }
-      });
+      const response = await getCertificates();
       setCertificates(response.data);
     } catch (err) {
       console.error('Error fetching certificates:', err);
@@ -123,10 +120,7 @@ function AdminListCertificates() {
 
     try {
       setIsDeleting(true);
-      const token = localStorage.getItem('jwtToken');
-      await axios.delete(`/api/admin/certificates/${certificateToDeleteId}`, {
-        headers: { Authorization: `Bearer ${token}` }
-      });
+      await deleteCertificate(certificateToDeleteId);
 
       // Remove the deleted certificate from the state
       setCertificates(certificates.filter(cert =>

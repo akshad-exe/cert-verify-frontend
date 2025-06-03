@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import axios from 'axios';
+import { verifyCertificate as verifyCertificateApi } from '../api/certificate';
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { AlertCircle, Search, Award, Calendar, User, FileCheck, ArrowRight } from 'lucide-react';
@@ -39,10 +39,10 @@ function Verify() {
     setCertificateData(null);
 
     try {
-      const response = await axios.get(`${import.meta.env.VITE_API_URL}api/verify/${certificateId}`);
+      const response = await verifyCertificateApi(certificateId);
       setCertificateData(response.data);
     } catch (err: any) {
-      if (axios.isAxiosError(err) && err.response) {
+      if (err.response) {
         if (err.response.status === 404) {
           setError('Certificate Not Found');
         } else {

@@ -5,7 +5,7 @@ import { Label } from "@/components/ui/label";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription, CardFooter } from "@/components/ui/card";
 import { Fade, Zoom } from 'react-awesome-reveal';
 import { Calendar, Award, FileText, Loader2, PlusCircle, User, Check } from 'lucide-react';
-import axios from 'axios';
+import { addCertificate } from '../../api/admin';
 import { toast } from 'react-hot-toast';
 
 function AdminAddCertificate() {
@@ -30,7 +30,7 @@ function AdminAddCertificate() {
 
     try {
       // Make API call to create the certificate
-      await axios.post('/api/admin/certificates', newCertificateData);
+      await addCertificate(newCertificateData);
       
       // Show success message
       toast.success('Certificate added successfully!');

@@ -3,7 +3,7 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
-import axios from 'axios';
+import { adminLogin } from '../../api/admin';
 import { useNavigate } from 'react-router-dom';
 import { Fade, Zoom } from 'react-awesome-reveal';
 import { User, Lock, LogIn, AlertCircle } from 'lucide-react';
@@ -21,10 +21,7 @@ function AdminLoginPage() {
     setLoading(true);
     
     try {
-      const response = await axios.post('/api/admin/login', {
-        username,
-        password,
-      });
+      const response = await adminLogin(username, password);
 
       // Assuming the backend returns a JWT in the response data under a 'token' key
       const token = response.data.token;
@@ -35,9 +32,9 @@ function AdminLoginPage() {
       } else {
         setError('Login failed: No token received');
       }
-    } catch (err) {
+    } catch (err: any) {
       // Handle login errors (e.g., invalid credentials, network issues)
-      if (axios.isAxiosError(err) && err.response) {
+      if (err.response) {
         setError(err.response.data.message || 'Login failed. Please check your credentials.');
       } else {
         setError('An unexpected error occurred during login.');
