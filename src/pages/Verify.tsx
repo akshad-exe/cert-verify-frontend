@@ -39,7 +39,7 @@ function Verify() {
     setCertificateData(null);
 
     try {
-      const response = await axios.get(`${import.meta.env.VITE_API_URL}/verify/${certificateId}`);
+      const response = await axios.get(`${import.meta.env.VITE_API_URL}api/verify/${certificateId}`);
       setCertificateData(response.data);
     } catch (err: any) {
       if (axios.isAxiosError(err) && err.response) {
