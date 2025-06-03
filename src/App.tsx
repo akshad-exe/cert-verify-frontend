@@ -42,7 +42,7 @@ function App() {
             </Route>
           </Route>
 
-          <Route path="*" element={<Error />} /> {/* This route will catch all unmatched paths and render the Error */}
+          <Route path="*" element={<Error statusCode={404} />} /> {/* This route will catch all unmatched paths and render the Error */}
         </Routes>
       </div>
     </ThemeProvider>

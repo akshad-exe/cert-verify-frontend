@@ -6,9 +6,10 @@ import { AlertTriangle, Home, RefreshCw } from 'lucide-react';
 
 interface ErrorPageProps {
   message?: string; // message is optional
+  statusCode?: number; // Add optional status code
 }
 
-function Error({ message }: ErrorPageProps) {
+function Error({ message, statusCode }: ErrorPageProps) {
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-100 dark:bg-gray-900 p-4">
       <Fade duration={800}>
@@ -26,14 +27,14 @@ function Error({ message }: ErrorPageProps) {
               Error Encountered
             </CardTitle>
             <CardDescription className="text-center text-gray-500 dark:text-gray-400 mt-2">
-              Something went wrong
+              {statusCode === 404 ? "Page Not Found" : "Something went wrong"}
             </CardDescription>
           </CardHeader>
           
           <CardContent className="space-y-6">
             <div className="p-4 bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-lg text-center">
               <p className="text-lg text-gray-700 dark:text-gray-300">
-                {message || 'An unexpected error occurred.'}
+                {statusCode === 404 ? "The page you are looking for doesn't exist." : message || 'An unexpected error occurred.'}
               </p>
             </div>
             

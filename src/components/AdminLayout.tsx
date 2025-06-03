@@ -41,7 +41,9 @@ function AdminLayout({ children }: AdminLayoutProps) {
       {/* Mobile sidebar toggle */}
       <button 
         onClick={() => setSidebarOpen(!sidebarOpen)}
-        className="md:hidden fixed top-4 left-4 z-50 p-2 rounded-md bg-white dark:bg-gray-800 shadow-md"
+        className={cn(
+          "md:hidden fixed top-4 left-4 z-50 p-2 rounded-md bg-white dark:bg-gray-800 shadow-md"
+        )}
       >
         {sidebarOpen ? 
           <X className="h-6 w-6 text-gray-600 dark:text-gray-300" /> : 
@@ -63,7 +65,9 @@ function AdminLayout({ children }: AdminLayoutProps) {
                 <Award className="h-8 w-8 text-primary" />
                 <span className="text-xl font-bold text-gray-800 dark:text-white">TechCognita</span>
               </Link>
-              <ModeToggle />
+              <div className={cn("transition-opacity duration-300", sidebarOpen ? "opacity-100" : "opacity-0 md:opacity-100")}>
+                <ModeToggle />
+              </div>
             </div>
             
             {/* Nav Links */}
@@ -73,6 +77,7 @@ function AdminLayout({ children }: AdminLayoutProps) {
                   <li key={item.path}>
                     <Link 
                       to={item.path} 
+                      onClick={() => setSidebarOpen(false)} // Close sidebar on link click
                       className={cn(
                         "flex items-center px-4 py-3 rounded-lg transition-colors group",
                         location.pathname === item.path 

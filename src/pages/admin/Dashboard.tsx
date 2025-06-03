@@ -89,7 +89,7 @@ function AdminDashboard() {
     <div className="space-y-8 w-full">
       <Fade>
         <div className="flex items-center justify-between w-full">
-          <h1 className="text-3xl font-bold tracking-tight">Dashboard</h1>
+          <h1 className="text-3xl items-center font-bold tracking-tight">Dashboard</h1>
           <Button 
             variant="outline" 
             size="sm" 
