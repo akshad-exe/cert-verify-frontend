@@ -13,12 +13,14 @@ function LandingPage() {
       {/* Header with subtle animation */}
       <Fade cascade triggerOnce={true} duration={800}>
         <header className="bg-primary text-primary-foreground py-4 shadow-md sticky top-0 z-10">
-          <div className="container mx-auto flex flex-col gap-4 sm:flex-row sm:justify-between sm:items-center px-4">
-            <div className="flex items-center justify-center sm:justify-start gap-2">
+          <div className="container mx-auto flex flex-row justify-between items-center px-4">
+            <div className="flex-1 flex justify-center">
               <Award className="h-8 w-8 text-orange-400" />
-              <h1 className="text-2xl font-bold">TechCognita Certificate Verification</h1>
+              <h1 className="text-2xl font-bold text-center">TechCognita Certificate Verification</h1>
             </div>
-            <ModeToggle />
+            <div className="ml-4">
+              <ModeToggle />
+            </div>
           </div>
         </header>
       </Fade>
@@ -237,7 +239,7 @@ function LandingPage() {
               
               <p className="text-sm text-muted-foreground">&copy; {new Date().getFullYear()} TechCognita. All rights reserved.</p>              
               <div className="flex gap-4">
-                <a href="mailto:contact@example.com" className="text-muted-foreground hover:text-foreground transition-colors">
+                <a href="mailto:contact@techcognita.com" className="text-muted-foreground hover:text-foreground transition-colors">
                   Contact Us
                 </a>
               </div>

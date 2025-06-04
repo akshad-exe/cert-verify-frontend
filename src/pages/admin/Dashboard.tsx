@@ -195,7 +195,7 @@ function AdminDashboard() {
                     <TableRow>
                       <TableHead className="w-[100px]">ID</TableHead>
                       <TableHead>Recipient</TableHead>
-                      <TableHead className="hidden sm:table-cell">Course</TableHead>
+                      <TableHead className="hidden sm:table-cell font-bold px-2 py-2 text-left">Course</TableHead>
                       <TableHead className="text-right">Issue Date</TableHead>
                     </TableRow>
                   </TableHeader>
@@ -207,7 +207,7 @@ function AdminDashboard() {
                           <User className="h-4 w-4 text-muted-foreground" />
                           <span>{cert.student_name}</span>
                         </TableCell>
-                        <TableCell className="hidden sm:table-cell">{cert.awarded_for}</TableCell>
+                        <TableCell className="hidden sm:table-cell font-medium truncate px-2 py-2 text-left" title={cert.awarded_for}>{cert.awarded_for}</TableCell>
                         <TableCell className="text-right">{formatDate(cert.issue_date)}</TableCell>
                       </TableRow>
                     ))}
