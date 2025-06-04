@@ -235,12 +235,8 @@ function LandingPage() {
                 <p className="font-semibold">TechCognita</p>
               </div>
               
-              <p className="text-sm text-muted-foreground">&copy; 2025 TechCognita. All rights reserved.</p>
-              
+              <p className="text-sm text-muted-foreground">&copy; {new Date().getFullYear()} TechCognita. All rights reserved.</p>              
               <div className="flex gap-4">
-                <a href="#" className="text-muted-foreground hover:text-foreground transition-colors">
-                  GitHub
-                </a>
                 <a href="mailto:contact@example.com" className="text-muted-foreground hover:text-foreground transition-colors">
                   Contact Us
                 </a>
