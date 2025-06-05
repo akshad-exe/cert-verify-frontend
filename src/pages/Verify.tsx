@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState} from 'react';
 import { verifyCertificate as verifyCertificateApi } from '../api/certificate';
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
@@ -7,6 +7,7 @@ import { Spinner } from '@/components/ui/spinner';
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { ModeToggle } from "@/components/mode-toggle";
 import { Fade, Slide, Zoom } from 'react-awesome-reveal';
+import MouseSparkles from '@/components/MouseSparkles';
 
 interface CertificateData {
   status: string;
@@ -41,6 +42,13 @@ function Verify() {
     try {
       const response = await verifyCertificateApi(certificateId);
       setCertificateData(response.data);
+      // Change cursor to verification check mark when certificate is verified
+      if (window.setCursorVerify) {
+        window.setCursorVerify();
+        setTimeout(() => {
+          if (window.resetCursor) window.resetCursor();
+        }, 2000); // Reset cursor after 2 seconds
+      }
     } catch (err: any) {
       if (err.response) {
         if (err.response.status === 404) {
@@ -52,18 +60,54 @@ function Verify() {
          setError('An error occurred while verifying the certificate.');
       }
       console.error('API Error:', err);
+      
+      // Change cursor to invalid X mark when verification fails
+      if (window.setCursorInvalid) {
+        window.setCursorInvalid();
+        setTimeout(() => {
+          if (window.resetCursor) window.resetCursor();
+        }, 2000); // Reset cursor after 2 seconds
+      }
     } finally {
       setLoading(false);
     }
   };
 
+  // Custom cursor event handlers
+  const handleVerifyButtonMouseEnter = () => {
+    if (!loading && window.setCursorVerify) window.setCursorVerify();
+  };
+
+  const handleVerifyButtonMouseLeave = () => {
+    if (window.resetCursor) window.resetCursor();
+  };
+
+  const handleCertificateResultMouseEnter = () => {
+    if (window.setCursorVerify) window.setCursorVerify();
+  };
+
+  const handleCertificateResultMouseLeave = () => {
+    if (window.resetCursor) window.resetCursor();
+  };
+
+  const handleErrorResultMouseEnter = () => {
+    if (window.setCursorInvalid) window.setCursorInvalid();
+  };
+
+  const handleErrorResultMouseLeave = () => {
+    if (window.resetCursor) window.resetCursor();
+  };
+
   return (
     <div className={`min-h-screen flex flex-col bg-gray-100 dark:bg-gray-900 text-gray-900 dark:text-white`}>
+      <MouseSparkles />
       <Fade>
         <header className="bg-primary text-white py-6 shadow-md">
-          <div className="container mx-auto flex flex-col gap-4 sm:flex-row sm:justify-between sm:items-center px-4">
-            <h1 className="text-2xl font-bold text-center">Certificate Verification System – TechCognita</h1>
-            <ModeToggle />
+          <div className="container mx-auto flex flex-row items-center px-4">
+            <h1 className="flex-1 break-words text-2xl sm:text-4xl md:text-6xl font-bold leading-tight text-center sm:text-left">Certificate Verification System-TechCognita</h1>
+            <div className="ml-4 flex-shrink-0">
+              <ModeToggle />
+            </div>
           </div>
         </header>
       </Fade>
@@ -92,6 +136,8 @@ function Verify() {
               onClick={verifyCertificate}
               className="w-full bg-primary hover:bg-primary/90 text-white font-medium py-2 px-4 rounded-md transition-all duration-300 flex items-center justify-center gap-2"
               disabled={loading}
+              onMouseEnter={handleVerifyButtonMouseEnter}
+              onMouseLeave={handleVerifyButtonMouseLeave}
             >
               {loading ? (
                 <>
@@ -115,7 +161,12 @@ function Verify() {
 
             {error && (
               <Zoom duration={500}>
-                <Alert variant="destructive" className="mt-6 animate-pulse">
+                <Alert 
+                  variant="destructive" 
+                  className="mt-6 animate-pulse"
+                  onMouseEnter={handleErrorResultMouseEnter}
+                  onMouseLeave={handleErrorResultMouseLeave}
+                >
                   <AlertCircle className="h-4 w-4" />
                   <AlertTitle>Verification Failed</AlertTitle>
                   <AlertDescription>
@@ -127,7 +178,11 @@ function Verify() {
 
             {certificateData && (
               <Fade delay={300} cascade damping={0.2}>
-                <div className={`mt-8 p-6 border rounded-xl border-green-200 dark:border-green-800 bg-green-50 dark:bg-green-900/30 text-gray-900 dark:text-white`}>
+                <div 
+                  className={`mt-8 p-6 border rounded-xl border-green-200 dark:border-green-800 bg-green-50 dark:bg-green-900/30 text-gray-900 dark:text-white`}
+                  onMouseEnter={handleCertificateResultMouseEnter}
+                  onMouseLeave={handleCertificateResultMouseLeave}
+                >
                   <h3 className={`text-xl font-bold mb-4 text-green-800 dark:text-green-400 flex items-center gap-2`}>
                     <Award className="h-6 w-6" />
                     <span>Certificate Verified</span>
