@@ -19,6 +19,7 @@ import { Fade, Slide } from 'react-awesome-reveal';
 import { Award, Clock, FileText, User, RefreshCw, AlertCircle } from 'lucide-react';
 import { Skeleton } from '@/components/ui/skeleton';
 import { Button } from "@/components/ui/button";
+import { toast } from 'react-hot-toast';
 
 interface Certificate {
   _id: string;

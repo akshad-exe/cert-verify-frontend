@@ -41,7 +41,7 @@ function AdminAddCertificate() {
       setCertificateId('');
       setAwardedFor('');
       setIssueDate('');
-    } catch (error) {
+    } catch (error: any) {
       console.error('Error adding certificate:', error);
       toast.error('Failed to add certificate. Please try again.');
     } finally {

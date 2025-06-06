@@ -50,7 +50,7 @@ function AdminEditCertificate() {
         setIssueDate(certificate.issue_date || certificate.issueDate || '');
         
         setError(null);
-      } catch (err) {
+      } catch (err: any) {
         console.error('Error fetching certificate:', err);
         setError('Failed to load certificate data. Please try again.');
       } finally {
@@ -95,7 +95,7 @@ function AdminEditCertificate() {
         navigate('/admin/certificates');
       }, 1500);
       
-    } catch (err) {
+    } catch (err: any) {
       console.error('Error updating certificate:', err);
       setError('Failed to update certificate. Please try again.');
       toast.error('Failed to update certificate');

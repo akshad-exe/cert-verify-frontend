@@ -98,7 +98,7 @@ function AdminListCertificates() {
     try {
       const response = await getCertificates();
       setCertificates(response.data);
-    } catch (err) {
+    } catch (err: any) {
       console.error('Error fetching certificates:', err);
       setError('Failed to load certificates. Please try again.');
     } finally {
@@ -128,7 +128,7 @@ function AdminListCertificates() {
       ));
 
       toast.success('Certificate deleted successfully');
-    } catch (err) {
+    } catch (err: any) {
       console.error('Error deleting certificate:', err);
       toast.error('Failed to delete certificate. Please try again.');
     } finally {
