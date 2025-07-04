@@ -82,10 +82,7 @@ export const CertificateDisplay: React.FC<CertificateDisplayProps> = ({ certific
                             <div className="flex items-center space-x-3 sm:space-x-4">
                                 {getCertificateTypeIcon(certificate.certificateType)}
                                 <div>
-                                    <h3 className="text-xl sm:text-2xl lg:text-3xl font-bold">TechCognita Certificate</h3>
-                                    <p className="text-orange-100 text-sm sm:text-base lg:text-lg">
-                                        {getCertificateTypeLabel(certificate.certificateType)} Certificate
-                                    </p>
+                                    <h3 className="text-xl sm:text-2xl lg:text-3xl font-bold"> {getCertificateTypeLabel(certificate.certificateType)} Certificate </h3>
                                 </div>
                             </div>
                             <Badge variant="secondary" className="bg-white/20 text-white border-white/30 text-sm sm:text-base lg:text-lg px-3 py-1 sm:px-4 sm:py-2 self-start sm:self-auto">
@@ -95,48 +92,96 @@ export const CertificateDisplay: React.FC<CertificateDisplayProps> = ({ certific
                     </CardHeader>
 
                     <CardContent className="p-4 sm:p-6 lg:p-10">
-                        <dl className="grid grid-cols-1 md:grid-cols-2 gap-6 sm:gap-8 lg:gap-10">
-                            {/* Left Column */}
-                            <div>
-                                <dt className="font-bold text-gray-500 uppercase tracking-wide text-xs sm:text-sm mb-1">Recipient</dt>
-                                <dd className="text-xl sm:text-2xl lg:text-3xl font-bold text-gray-900 break-words mb-4">{certificate.recipientName}</dd>
+                        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 sm:gap-8 lg:gap-10">
+                            <div className="space-y-6 sm:space-y-8">
+                                <div>
+                                    <div className="flex flex-col items-start">
+                                        <div className="flex items-center space-x-3 mb-2 sm:mb-3">
+                                            <User className="h-5 w-5 sm:h-6 sm:w-6 text-orange-500 flex-shrink-0" />
+                                            <label className="text-xs sm:text-sm font-bold text-gray-500 uppercase tracking-wide">Recipient</label>
+                                        </div>
+                                        <p className="text-xl sm:text-2xl lg:text-3xl font-bold text-gray-900 break-words pl-0 m-0">{certificate.recipientName}</p>
+                                    </div>
+                                </div>
 
-                                <dt className="font-bold text-gray-500 uppercase tracking-wide text-xs sm:text-sm mb-1">{certificate.certificateType === 'course' ? 'Course' : 'Program'}</dt>
-                                <dd className="col-span-2 sm:col-span-3 text-gray-800 break-words mb-4">{certificate.certificateTitle}</dd>
+                                <div>
+                                    <div className="flex flex-col items-start">
+                                        <div className="flex items-center space-x-3 mb-2 sm:mb-3">
+                                            <Book className="h-5 w-5 sm:h-6 sm:w-6 text-orange-500 flex-shrink-0" />
+                                            <label className="text-xs sm:text-sm font-bold text-gray-500 uppercase tracking-wide">{certificate.certificateType === 'course' ? 'Course' : 'Program'}</label>
+                                        </div>
+                                        <p className="text-base sm:text-lg lg:text-xl font-semibold text-gray-800 break-words pl-0 m-0">{certificate.certificateTitle}</p>
+                                    </div>
+                                </div>
 
                                 {certificate.grade && (
-                                    <>
-                                        <dt className="font-bold text-gray-500 uppercase tracking-wide text-xs sm:text-sm mb-1">Grade</dt>
-                                        <dd className="text-lg sm:text-xl lg:text-2xl font-bold text-gray-800 mb-4">{certificate.grade}</dd>
-                                    </>
+                                    <div>
+                                        <div className="flex flex-col items-start">
+                                            <div className="flex items-center space-x-3 mb-2 sm:mb-3">
+                                                <Star className="h-5 w-5 sm:h-6 sm:w-6 text-orange-500 flex-shrink-0" />
+                                                <label className="text-xs sm:text-sm font-bold text-gray-500 uppercase tracking-wide">Grade</label>
+                                            </div>
+                                            <p className="text-lg sm:text-xl lg:text-2xl font-bold text-gray-800 pl-0 m-0">{certificate.grade}</p>
+                                        </div>
+                                    </div>
                                 )}
+
                                 {certificate.duration && (
-                                    <>
-                                        <dt className="font-bold text-gray-500 uppercase tracking-wide text-xs sm:text-sm mb-1">Duration</dt>
-                                        <dd className="text-base sm:text-lg font-semibold text-gray-800 mb-4">{certificate.duration}</dd>
-                                    </>
+                                    <div>
+                                        <div className="flex flex-col items-start">
+                                            <div className="flex items-center space-x-3 mb-2 sm:mb-3">
+                                                <Calendar className="h-5 w-5 sm:h-6 sm:w-6 text-orange-500 flex-shrink-0" />
+                                                <label className="text-xs sm:text-sm font-bold text-gray-500 uppercase tracking-wide">Duration</label>
+                                            </div>
+                                            <p className="text-base sm:text-lg font-semibold text-gray-800 pl-0 m-0">{certificate.duration}</p>
+                                        </div>
+                                    </div>
                                 )}
                             </div>
 
-                            {/* Right Column */}
-                            <div>
-                                <dt className="font-bold text-gray-500 uppercase tracking-wide text-xs sm:text-sm mb-1">Issue Date</dt>
-                                <dd className="text-base sm:text-lg lg:text-xl font-semibold text-gray-800 mb-4">{formatDate(certificate.issueDate)}</dd>
+                            <div className="space-y-6 sm:space-y-8">
+                                <div>
+                                    <div className="flex flex-col items-start">
+                                        <div className="flex items-center space-x-3 mb-2 sm:mb-3">
+                                            <Calendar className="h-5 w-5 sm:h-6 sm:w-6 text-orange-500 flex-shrink-0" />
+                                            <label className="text-xs sm:text-sm font-bold text-gray-500 uppercase tracking-wide">Issue Date</label>
+                                        </div>
+                                        <p className="text-base sm:text-lg lg:text-xl font-semibold text-gray-800 pl-0 m-0">{formatDate(certificate.issueDate)}</p>
+                                    </div>
+                                </div>
 
-                                <dt className="font-bold text-gray-500 uppercase tracking-wide text-xs sm:text-sm mb-1">Expiry Date</dt>
-                                <dd className="text-base sm:text-lg lg:text-xl font-semibold text-gray-800 mb-4">{formatDate(certificate.expiryDate)}</dd>
+                                <div>
+                                    <div className="flex flex-col items-start">
+                                        <div className="flex items-center space-x-3 mb-2 sm:mb-3">
+                                            <Calendar className="h-5 w-5 sm:h-6 sm:w-6 text-orange-500 flex-shrink-0" />
+                                            <label className="text-xs sm:text-sm font-bold text-gray-500 uppercase tracking-wide">Expiry Date</label>
+                                        </div>
+                                        <p className="text-base sm:text-lg lg:text-xl font-semibold text-gray-800 pl-0 m-0">{formatDate(certificate.expiryDate)}</p>
+                                    </div>
+                                </div>
 
-                                <dt className="font-bold text-gray-500 uppercase tracking-wide text-xs sm:text-sm mb-1">Instructor</dt>
-                                <dd className="text-base sm:text-lg lg:text-xl font-semibold text-gray-800 break-words mb-4">{certificate.instructorName}</dd>
+                                <div>
+                                    <div className="flex flex-col items-start">
+                                        <div className="flex items-center space-x-3 mb-2 sm:mb-3">
+                                            <User className="h-5 w-5 sm:h-6 sm:w-6 text-orange-500 flex-shrink-0" />
+                                            <label className="text-xs sm:text-sm font-bold text-gray-500 uppercase tracking-wide">Instructor</label>
+                                        </div>
+                                        <p className="text-base sm:text-lg lg:text-xl font-semibold text-gray-800 break-words pl-0 m-0">{certificate.instructorName}</p>
+                                    </div>
+                                </div>
                             </div>
-                        </dl>
+                        </div>
 
                         {/* Skills Section */}
                         <section className="mt-8 sm:mt-12">
-                            <h4 className="text-lg sm:text-xl font-bold text-gray-900 mb-4 sm:mb-6">Skills Acquired</h4>
+                            <h4 className="text-lg sm:text-xl font-bold text-gray-900 mb-4 sm:mb-6 flex items-center gap-2">
+                                <Star className="h-5 w-5 sm:h-6 sm:w-6 text-orange-500 flex-shrink-0" />
+                                Skills Acquired
+                            </h4>
                             <div className="flex flex-wrap gap-2 sm:gap-3">
-                                {(certificate.skills || []).map((skill, index) => (
-                                    <Badge key={index} variant="secondary" className="bg-orange-100 text-orange-800 px-3 py-1 sm:px-4 sm:py-2 text-xs sm:text-sm font-medium">
+                                {certificate.skills.map((skill, index) => (
+                                    <Badge key={index} variant="secondary" className="bg-orange-100 text-orange-800 px-3 py-1 sm:px-4 sm:py-2 text-xs sm:text-sm font-medium flex items-center gap-1">
+                                        <Star className="inline h-3 w-3 mr-1 text-orange-400" />
                                         {skill}
                                     </Badge>
                                 ))}

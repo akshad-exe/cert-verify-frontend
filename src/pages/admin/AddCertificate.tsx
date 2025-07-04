@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription, CardFooter } from "@/components/ui/card";
 import { Fade, Zoom } from 'react-awesome-reveal';
-import { Calendar, Award, FileText, Loader2, PlusCircle, User, Check, Star } from 'lucide-react';
+import { Calendar, Award, FileText, Loader2, PlusCircle, User, Check, Star, ListChecks, ShieldCheck } from 'lucide-react';
 import { addCertificate } from '../../api/admin';
 import { toast } from 'react-hot-toast';
 import type { Certificate } from '@/types/certificate';
@@ -150,19 +150,31 @@ function AdminAddCertificate() {
           <form onSubmit={handleSubmit}>
             <CardContent className="space-y-6">
               <div className="space-y-2">
-                <Label htmlFor="id">Certificate ID</Label>
+                <div className="flex items-center gap-2">
+                  <Award className="h-4 w-4 text-orange-500" />
+                  <Label htmlFor="id">Certificate ID</Label>
+                </div>
                 <Input id="id" name="id" placeholder="Enter unique certificate ID" value={form.id} onChange={handleChange} required />
               </div>
               <div className="space-y-2">
-                <Label htmlFor="recipientName">Recipient Name</Label>
+                <div className="flex items-center gap-2">
+                  <User className="h-4 w-4 text-orange-500" />
+                  <Label htmlFor="recipientName">Recipient Name</Label>
+                </div>
                 <Input id="recipientName" name="recipientName" placeholder="Enter recipient's full name" value={form.recipientName} onChange={handleChange} required />
               </div>
               <div className="space-y-2">
-                <Label htmlFor="certificateTitle">{getTitleLabel(form.certificateType)}</Label>
+                <div className="flex items-center gap-2">
+                  <FileText className="h-4 w-4 text-orange-500" />
+                  <Label htmlFor="certificateTitle">{getTitleLabel(form.certificateType)}</Label>
+                </div>
                 <Input id="certificateTitle" name="certificateTitle" placeholder={getTitleLabel(form.certificateType)} value={form.certificateTitle} onChange={handleChange} required />
               </div>
               <div className="space-y-2">
-                <Label htmlFor="certificateType">Certificate Type</Label>
+                <div className="flex items-center gap-2">
+                  <Award className="h-4 w-4 text-orange-500" />
+                  <Label htmlFor="certificateType">Certificate Type</Label>
+                </div>
                 <Select value={form.certificateType} onValueChange={value => handleSelectChange('certificateType', value)}>
                   <SelectTrigger>
                     <SelectValue placeholder="Select type" />
@@ -175,42 +187,63 @@ function AdminAddCertificate() {
                 </Select>
               </div>
               <div className="space-y-2">
-                <Label htmlFor="issueDate">Issue Date</Label>
+                <div className="flex items-center gap-2">
+                  <Calendar className="h-4 w-4 text-orange-500" />
+                  <Label htmlFor="issueDate">Issue Date</Label>
+                </div>
                 <DatePicker date={issueDateObj} setDate={setIssueDateObj} placeholder="Pick issue date" />
               </div>
               {showExpiryDate && (
                 <div className="space-y-2">
-                  <Label htmlFor="expiryDate">Expiry Date</Label>
+                  <div className="flex items-center gap-2">
+                    <Calendar className="h-4 w-4 text-orange-500" />
+                    <Label htmlFor="expiryDate">Expiry Date</Label>
+                  </div>
                   <DatePicker date={expiryDateObj} setDate={setExpiryDateObj} placeholder="Pick expiry date" />
                 </div>
               )}
               {showInstructor && (
                 <div className="space-y-2">
-                  <Label htmlFor="instructorName">Instructor Name</Label>
+                  <div className="flex items-center gap-2">
+                    <User className="h-4 w-4 text-orange-500" />
+                    <Label htmlFor="instructorName">Instructor Name</Label>
+                  </div>
                   <Input id="instructorName" name="instructorName" placeholder="Enter instructor's name" value={form.instructorName} onChange={handleChange} />
                 </div>
               )}
               {showGrade && (
                 <div className="space-y-2">
-                  <Label htmlFor="grade">Grade</Label>
+                  <div className="flex items-center gap-2">
+                    <Star className="h-4 w-4 text-orange-500" />
+                    <Label htmlFor="grade">Grade</Label>
+                  </div>
                   <Input id="grade" name="grade" placeholder="Enter grade (optional)" value={form.grade} onChange={handleChange} />
                 </div>
               )}
               {showSkills && (
                 <div className="space-y-2">
-                  <Label htmlFor="skills">Skills (comma separated)</Label>
-                  <Input id="skills" name="skills" placeholder="e.g. Python, React, Security" value={skillsInput} onChange={handleSkillsChange} />
+                  <div className="flex items-center gap-2">
+                    <ListChecks className="h-4 w-4 text-orange-500" />
+                    <Label htmlFor="skills">Skills (comma separated)</Label>
+                  </div>
+                  <Input id="skills" name="skills" placeholder="e.g. Python, React, SQL" value={skillsInput} onChange={handleSkillsChange} />
                 </div>
               )}
               {showDuration && (
                 <div className="space-y-2">
-                  <Label htmlFor="duration">Duration</Label>
-                  <Input id="duration" name="duration" placeholder="e.g. 3 months" value={form.duration} onChange={handleChange} />
+                  <div className="flex items-center gap-2">
+                    <Calendar className="h-4 w-4 text-orange-500" />
+                    <Label htmlFor="duration">Duration</Label>
+                  </div>
+                  <Input id="duration" name="duration" placeholder="Enter duration (e.g. 3 months)" value={form.duration} onChange={handleChange} />
                 </div>
               )}
               {showStatus && (
                 <div className="space-y-2">
-                  <Label htmlFor="status">Status</Label>
+                  <div className="flex items-center gap-2">
+                    <ShieldCheck className="h-4 w-4 text-orange-500" />
+                    <Label htmlFor="status">Status</Label>
+                  </div>
                   <Select value={form.status} onValueChange={value => handleSelectChange('status', value)}>
                     <SelectTrigger>
                       <SelectValue placeholder="Select status" />
