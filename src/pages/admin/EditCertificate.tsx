@@ -12,7 +12,7 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { Fade, Zoom } from 'react-awesome-reveal';
-import { FileText, User, Award, Calendar, Save, ArrowLeft, Loader2, CheckCircle2, Star, ListChecks, ShieldCheck } from 'lucide-react';
+import { FileText, User, Award, Calendar, Save, ArrowLeft, Loader2, CheckCircle2, Star, ListChecks, ShieldCheck, Hourglass } from 'lucide-react';
 import { getCertificateById, updateCertificate } from '../../api/admin';
 import { toast } from 'react-hot-toast';
 import type { Certificate } from '@/types/certificate';
@@ -314,7 +314,7 @@ function AdminEditCertificate() {
                 {showDuration && (
                   <div className="space-y-2">
                     <div className="flex items-center gap-2">
-                      <Calendar className="h-4 w-4 text-orange-500" />
+                      <Hourglass className="h-4 w-4 text-orange-500" />
                       <Label htmlFor="duration">Duration</Label>
                     </div>
                     <Input id="duration" name="duration" placeholder="Enter duration (e.g. 3 months)" value={form.duration} onChange={handleChange} />

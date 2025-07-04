@@ -1,4 +1,5 @@
 import api from './index';
+import type { Certificate } from '@/types/certificate';
 // import type { Admin } from '@/types/admin';
 // import axios from '@/lib/axios';
 
@@ -10,7 +11,7 @@ export const getDashboardData = () => {
   return api.get('/admin/certificates');
 };
 
-export const addCertificate = (certificateData: any) => {
+export const addCertificate = (certificateData: Omit<Certificate, 'mongoId'>) => {
   return api.post('/admin/certificates/', certificateData);
 };
 
@@ -22,7 +23,7 @@ export const getCertificateById = (id: string) => {
   return api.get(`/admin/certificates/${id}`);
 };
 
-export const updateCertificate = (id: string, certificateData: any) => {
+export const updateCertificate = (id: string, certificateData: Omit<Certificate, 'mongoId'>) => {
   return api.put(`/admin/certificates/${id}`, certificateData);
 };
 

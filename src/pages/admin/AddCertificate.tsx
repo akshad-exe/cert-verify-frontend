@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription, CardFooter } from "@/components/ui/card";
 import { Fade, Zoom } from 'react-awesome-reveal';
-import { Calendar, Award, FileText, Loader2, PlusCircle, User, Check, Star, ListChecks, ShieldCheck } from 'lucide-react';
+import { Calendar, Award, Loader2, PlusCircle, User, Check, Star, ListChecks, Fingerprint, Type, Layers, GraduationCap, BadgeCheck, Hourglass } from 'lucide-react';
 import { addCertificate } from '../../api/admin';
 import { toast } from 'react-hot-toast';
 import type { Certificate } from '@/types/certificate';
@@ -151,7 +151,7 @@ function AdminAddCertificate() {
             <CardContent className="space-y-6">
               <div className="space-y-2">
                 <div className="flex items-center gap-2">
-                  <Award className="h-4 w-4 text-orange-500" />
+                  <Fingerprint className="h-4 w-4 text-orange-500" />
                   <Label htmlFor="id">Certificate ID</Label>
                 </div>
                 <Input id="id" name="id" placeholder="Enter unique certificate ID" value={form.id} onChange={handleChange} required />
@@ -165,14 +165,14 @@ function AdminAddCertificate() {
               </div>
               <div className="space-y-2">
                 <div className="flex items-center gap-2">
-                  <FileText className="h-4 w-4 text-orange-500" />
+                  <Type className="h-4 w-4 text-orange-500" />
                   <Label htmlFor="certificateTitle">{getTitleLabel(form.certificateType)}</Label>
                 </div>
                 <Input id="certificateTitle" name="certificateTitle" placeholder={getTitleLabel(form.certificateType)} value={form.certificateTitle} onChange={handleChange} required />
               </div>
               <div className="space-y-2">
                 <div className="flex items-center gap-2">
-                  <Award className="h-4 w-4 text-orange-500" />
+                  <Layers className="h-4 w-4 text-orange-500" />
                   <Label htmlFor="certificateType">Certificate Type</Label>
                 </div>
                 <Select value={form.certificateType} onValueChange={value => handleSelectChange('certificateType', value)}>
@@ -205,7 +205,7 @@ function AdminAddCertificate() {
               {showInstructor && (
                 <div className="space-y-2">
                   <div className="flex items-center gap-2">
-                    <User className="h-4 w-4 text-orange-500" />
+                    <GraduationCap className="h-4 w-4 text-orange-500" />
                     <Label htmlFor="instructorName">Instructor Name</Label>
                   </div>
                   <Input id="instructorName" name="instructorName" placeholder="Enter instructor's name" value={form.instructorName} onChange={handleChange} />
@@ -232,7 +232,7 @@ function AdminAddCertificate() {
               {showDuration && (
                 <div className="space-y-2">
                   <div className="flex items-center gap-2">
-                    <Calendar className="h-4 w-4 text-orange-500" />
+                    <Hourglass className="h-4 w-4 text-orange-500" />
                     <Label htmlFor="duration">Duration</Label>
                   </div>
                   <Input id="duration" name="duration" placeholder="Enter duration (e.g. 3 months)" value={form.duration} onChange={handleChange} />
@@ -241,7 +241,7 @@ function AdminAddCertificate() {
               {showStatus && (
                 <div className="space-y-2">
                   <div className="flex items-center gap-2">
-                    <ShieldCheck className="h-4 w-4 text-orange-500" />
+                    <BadgeCheck className="h-4 w-4 text-orange-500" />
                     <Label htmlFor="status">Status</Label>
                   </div>
                   <Select value={form.status} onValueChange={value => handleSelectChange('status', value)}>

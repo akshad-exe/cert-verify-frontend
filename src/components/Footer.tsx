@@ -1,4 +1,4 @@
-import React from 'react';
+
 import { Linkedin, Globe } from 'lucide-react';
 
 export const Footer = () => {
