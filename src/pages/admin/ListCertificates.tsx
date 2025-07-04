@@ -29,22 +29,10 @@ import {
 import { Fade, Slide } from 'react-awesome-reveal';
 import { Search, Edit, Trash2, FileText, User, Calendar, Award, AlertTriangle, Loader2, RefreshCw } from 'lucide-react';
 import { getCertificates, deleteCertificate } from '../../api/admin';
+import type { Certificate } from '@/types/certificate';
 import { Link } from 'react-router-dom';
 import { toast } from 'react-hot-toast';
-
-interface Certificate {
-  _id: string;
-  certificate_id: string;
-  student_name: string;
-  awarded_for: string;
-  issue_date: string;
-  // Support for camelCase naming as well
-  id?: number;
-  certificateId?: string;
-  holderName?: string;
-  courseName?: string;
-  issueDate?: string;
-}
+// import { normalizeCertificate } from '@/types/normalizeCertificate';
 
 function AdminListCertificates() {
   const [certificateToDeleteId, setCertificateToDeleteId] = useState<string | null>(null);
@@ -57,18 +45,12 @@ function AdminListCertificates() {
 
   // Filter certificates based on search term, handling both naming conventions
   const filteredCertificates = certificates.filter(cert => {
-    const certId = cert.certificateId ?? cert.certificate_id;
-    const student = cert.holderName ?? cert.student_name;
-    const awarded = cert.courseName ?? cert.awarded_for;
-    const issue = cert.issueDate ?? cert.issue_date;
-
     const searchTermLower = searchTerm.toLowerCase();
-
     return (
-      certId?.toLowerCase().includes(searchTermLower) ||
-      student?.toLowerCase().includes(searchTermLower) ||
-      awarded?.toLowerCase().includes(searchTermLower) ||
-      issue?.toLowerCase().includes(searchTermLower)
+      cert.id?.toLowerCase().includes(searchTermLower) ||
+      cert.recipientName?.toLowerCase().includes(searchTermLower) ||
+      cert.certificateTitle?.toLowerCase().includes(searchTermLower) ||
+      cert.issueDate?.toLowerCase().includes(searchTermLower)
     );
   });
 
@@ -97,6 +79,7 @@ function AdminListCertificates() {
     setError(null);
     try {
       const response = await getCertificates();
+      // setCertificates(response.data.map(normalizeCertificate));
       setCertificates(response.data);
     } catch (err: any) {
       console.error('Error fetching certificates:', err);
@@ -110,8 +93,8 @@ function AdminListCertificates() {
     fetchCertificates();
   }, []); // Empty dependency array means this effect runs once on mount
 
-  const handleDelete = (certificateId: string) => {
-    setCertificateToDeleteId(certificateId);
+  const handleDelete = (mongoId: string) => {
+    setCertificateToDeleteId(mongoId);
     setShowDeleteConfirmation(true);
   };
 
@@ -123,9 +106,7 @@ function AdminListCertificates() {
       await deleteCertificate(certificateToDeleteId);
 
       // Remove the deleted certificate from the state
-      setCertificates(certificates.filter(cert =>
-        (cert._id !== certificateToDeleteId && cert.certificate_id !== certificateToDeleteId)
-      ));
+      setCertificates(certificates.filter(cert => cert.mongoId !== certificateToDeleteId));
 
       toast.success('Certificate deleted successfully');
     } catch (err: any) {
@@ -221,34 +202,28 @@ function AdminListCertificates() {
                   </TableHeader>
                   <TableBody>
                     {filteredCertificates.map((cert) => {
-                      const id = cert._id || cert.id?.toString() || '';
-                      const certId = cert.certificate_id || cert.certificateId || '';
-                      const name = cert.student_name || cert.holderName || '';
-                      const course = cert.awarded_for || cert.courseName || '';
-                      const date = cert.issue_date || cert.issueDate || '';
-
                       return (
-                        <TableRow key={id}>
-                          <TableCell className="font-medium font-mono text-xs">{certId}</TableCell>
+                        <TableRow key={cert.mongoId}>
+                          <TableCell className="font-medium font-mono text-xs">{cert.id}</TableCell>
                           <TableCell className="flex items-center gap-2">
                             <User className="h-4 w-4 text-muted-foreground" />
-                            <span>{name}</span>
+                            <span>{cert.recipientName}</span>
                           </TableCell>
                           <TableCell className="hidden md:table-cell">
                             <div className="flex items-center gap-2">
                               <Award className="h-4 w-4 text-muted-foreground" />
-                              <span>{course}</span>
+                              <span>{cert.certificateTitle}</span>
                             </div>
                           </TableCell>
                           <TableCell className="hidden sm:table-cell">
                             <div className="flex items-center gap-2">
                               <Calendar className="h-4 w-4 text-muted-foreground" />
-                              <span>{formatDate(date)}</span>
+                              <span>{formatDate(cert.issueDate)}</span>
                             </div>
                           </TableCell>
                           <TableCell className="text-right">
                             <div className="flex justify-end gap-2">
-                              <Link to={`/admin/certificates/edit/${id}`}>
+                              <Link to={`/admin/certificates/edit/${cert.mongoId}`}>
                                 <Button variant="outline" size="sm" className="h-8 w-8 p-0">
                                   <Edit className="h-4 w-4" />
                                 </Button>
@@ -257,7 +232,7 @@ function AdminListCertificates() {
                                 variant="outline"
                                 size="sm"
                                 className="h-8 w-8 p-0 text-red-500 border-red-200 hover:bg-red-50 hover:text-red-600 dark:border-red-800 dark:hover:bg-red-950/20"
-                                onClick={() => handleDelete(id)}
+                                onClick={() => handleDelete(cert.mongoId)}
                               >
                                 <Trash2 className="h-4 w-4" />
                               </Button>

@@ -1,7 +1,6 @@
 import { Routes, Route } from 'react-router-dom';
-import Verify from './pages/Verify.tsx';
+import Index from './pages/Index.tsx';
 import Error from './pages/Error.tsx';
-import Landing from './pages/Landing.tsx';
 import AdminLogin from './pages/admin/Login.tsx';
 import AdminDashboard from './pages/admin/Dashboard.tsx';
 import AdminAddCertificate from './pages/admin/AddCertificate.tsx';
@@ -20,8 +19,7 @@ function App() {
       <div className="App min-h-screen">
         <Toaster /> {/* Add Toaster component here */}
         <Routes>
-          <Route path="/" element={<Landing />} /> {/* Set Landing for the root route */}
-          <Route path="/verify" element={<Verify />} /> {/* Set Verify for the /verify route */}
+          <Route path="/" element={<Index />} /> {/* Set Index for the root route */}
 
           {/* Admin Routes */}
           <Route path="/admin/login" element={<AdminLogin />} />

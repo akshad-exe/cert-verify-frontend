@@ -19,16 +19,7 @@ import { Fade, Slide } from 'react-awesome-reveal';
 import { Award, Clock, FileText, User, RefreshCw, AlertCircle } from 'lucide-react';
 import { Skeleton } from '@/components/ui/skeleton';
 import { Button } from "@/components/ui/button";
-import { toast } from 'react-hot-toast';
-
-interface Certificate {
-  _id: string;
-  certificate_id: string;
-  student_name: string;
-  awarded_for: string;
-  issue_date: string;
-  // Add other fields as necessary
-}
+import type { Certificate } from '@/types/certificate';
 
 function AdminDashboard() {
   const [totalCertificates, setTotalCertificates] = useState(0);
@@ -202,14 +193,14 @@ function AdminDashboard() {
                   </TableHeader>
                   <TableBody>
                     {recentCertificates.map((cert) => (
-                      <TableRow key={cert._id}>
-                        <TableCell className="font-medium font-mono text-xs">{cert.certificate_id}</TableCell>
+                      <TableRow key={cert.mongoId}>
+                        <TableCell className="font-medium font-mono text-xs">{cert.id}</TableCell>
                         <TableCell className="flex items-center gap-2">
                           <User className="h-4 w-4 text-muted-foreground" />
-                          <span>{cert.student_name}</span>
+                          <span>{cert.recipientName}</span>
                         </TableCell>
-                        <TableCell className="hidden sm:table-cell font-medium truncate px-2 py-2 text-left" title={cert.awarded_for}>{cert.awarded_for}</TableCell>
-                        <TableCell className="text-right">{formatDate(cert.issue_date)}</TableCell>
+                        <TableCell className="hidden sm:table-cell font-medium truncate px-2 py-2 text-left" title={cert.certificateTitle}>{cert.certificateTitle}</TableCell>
+                        <TableCell className="text-right">{formatDate(cert.issueDate)}</TableCell>
                       </TableRow>
                     ))}
                   </TableBody>

@@ -25,5 +25,8 @@ axios.interceptors.request.use(
   }
 );
 
+/**
+ * @type {import('axios').AxiosInstance}
+ */
 // You can export the configured axios instance if needed, but configuring the default instance is also common
-// export default axios; 
+export default axios; 
