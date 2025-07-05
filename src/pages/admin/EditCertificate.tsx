@@ -24,6 +24,7 @@ import {
   SelectItem,
   SelectValue,
 } from '@/components/ui/select';
+import { castError } from '@/types/error';
 
 const certificateTypeOptions = [
   { value: 'internship', label: 'Internship' },
@@ -93,8 +94,9 @@ function AdminEditCertificate() {
         else setIssueDateObj(undefined);
         if (certificate.expiryDate) setExpiryDateObj(new Date(certificate.expiryDate));
         else setExpiryDateObj(new Date());
-      } catch (err: any) {      
-        console.error('Error fetching certificate:', err);
+      } catch (err: unknown) {      
+        const error = castError(err);
+        console.error('Error fetching certificate:', error);
         setError('Failed to load certificate data. Please try again.');
       } finally {
         setLoading(false);
@@ -167,8 +169,9 @@ function AdminEditCertificate() {
       setTimeout(() => {
         navigate('/admin/certificates');
       }, 1500);
-    } catch (err: any) {
-      console.error('Error updating certificate:', err);
+    } catch (err: unknown) {
+      const error = castError(err);
+      console.error('Error updating certificate:', error);
       setError('Failed to update certificate. Please try again.');
       toast.error('Failed to update certificate');
     } finally {

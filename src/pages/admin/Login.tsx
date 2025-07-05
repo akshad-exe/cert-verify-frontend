@@ -7,6 +7,7 @@ import { adminLogin } from '../../api/admin';
 import { useNavigate } from 'react-router-dom';
 import { Fade, Zoom } from 'react-awesome-reveal';
 import { User, Lock, LogIn, AlertCircle } from 'lucide-react';
+import { castError } from '@/types/error';
 
 function AdminLoginPage() {
   const [username, setUsername] = useState('');
@@ -32,10 +33,11 @@ function AdminLoginPage() {
       } else {
         setError('Login failed: No token received');
       }
-    } catch (err: any) {
+    } catch (err: unknown) {
       // Handle login errors (e.g., invalid credentials, network issues)
-      if (err.response) {
-        setError(err.response.data.message || 'Login failed. Please check your credentials.');
+      const error = castError(err);
+      if (error.response) {
+        setError(error.response.data?.message || 'Login failed. Please check your credentials.');
       } else {
         setError('An unexpected error occurred during login.');
       }

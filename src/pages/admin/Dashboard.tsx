@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { getDashboardData } from '../../api/admin';
 import {
   Card,
@@ -20,6 +20,7 @@ import { Award, Clock, FileText, User, RefreshCw, AlertCircle } from 'lucide-rea
 import { Skeleton } from '@/components/ui/skeleton';
 import { Button } from "@/components/ui/button";
 import type { Certificate } from '@/types/certificate';
+import { castError } from '@/types/error';
 
 function AdminDashboard() {
   const [totalCertificates, setTotalCertificates] = useState(0);
@@ -60,10 +61,11 @@ function AdminDashboard() {
       setTotalCertificates(certificates.length);
       // Display the last 5 certificates as recent additions
       setRecentCertificates(certificates.slice(-5)); // Adjust slice number as needed
-    } catch (err: any) {
-      console.error('Error fetching dashboard data:', err);
-      if (err.response) {
-        setError(err.response.data.message || 'Failed to fetch dashboard data.');
+    } catch (err: unknown) {
+      const error = castError(err);
+      console.error('Error fetching dashboard data:', error);
+      if (error.response) {
+        setError(error.response.data?.message || 'Failed to fetch dashboard data.');
       } else {
         setError('An unexpected error occurred while fetching dashboard data.');
       }

@@ -3,7 +3,7 @@ import { VerificationForm } from '@/components/VerificationForm';
 import { CertificateDisplay } from '@/components/CertificateDisplay';
 import type { Certificate } from '@/types/certificate';
 import { verifyCertificate as verifyCertificateApi } from '@/api/certificate';
-// import { normalizeCertificate } from '@/types/normalizeCertificate';
+import { castError } from '@/types/error';
 
 export const CertificateVerification = () => {
   const [verifiedCertificate, setVerifiedCertificate] = useState<Certificate | null>(null);
@@ -16,14 +16,14 @@ export const CertificateVerification = () => {
     setIsVerifying(true);
     try {
       const response = await verifyCertificateApi(certificateId); 
-      // setVerifiedCertificate(normalizeCertificate(response.data));
       setVerifiedCertificate(response.data);
       setIsVerifying(false);
-    } catch (err: any) {
+    } catch (err: unknown) {
       setIsVerifying(false);
-      if (err.response && err.response.status === 404) {
+      const error = castError(err);
+      if (error.response && error.response.status === 404) {
         setError('Certificate not found. Please check the ID and try again.');
-      } else if (err.response && err.response.status === 403) {
+      } else if (error.response && error.response.status === 403) {
         setError('You are not authorized to view this certificate.');
       } else {
         setError('An error occurred during verification. Please try again.');

@@ -16,6 +16,7 @@ import {
   SelectItem,
   SelectValue,
 } from '@/components/ui/select';
+import { castError } from '@/types/error';
 
 const certificateTypeOptions = [
   { value: 'internship', label: 'Internship' },
@@ -85,7 +86,8 @@ function AdminAddCertificate() {
     event.preventDefault();
     setLoading(true);
     setSuccess(false);
-    if (!form.id || !form.recipientName || !form.certificateTitle || !form.certificateType || !form.issueDate) {
+
+    if (!form.id.trim() || !form.recipientName.trim() || !form.certificateTitle.trim()) {
       toast.error('Please fill in all required fields.');
       setLoading(false);
       return;
@@ -110,7 +112,8 @@ function AdminAddCertificate() {
       setSkillsInput('');
       setIssueDateObj(undefined);
       setExpiryDateObj(undefined);
-    } catch (error: any) {
+    } catch (err: unknown) {
+      const error = castError(err);
       console.error('Error adding certificate:', error);
       toast.error('Failed to add certificate. Please try again.');
     } finally {

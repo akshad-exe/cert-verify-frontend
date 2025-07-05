@@ -32,6 +32,7 @@ import { getCertificates, deleteCertificate } from '../../api/admin';
 import type { Certificate } from '@/types/certificate';
 import { Link } from 'react-router-dom';
 import { toast } from 'react-hot-toast';
+import { castError } from '@/types/error';
 // import { normalizeCertificate } from '@/types/normalizeCertificate';
 
 function AdminListCertificates() {
@@ -79,10 +80,10 @@ function AdminListCertificates() {
     setError(null);
     try {
       const response = await getCertificates();
-      // setCertificates(response.data.map(normalizeCertificate));
       setCertificates(response.data);
-    } catch (err: any) {
-      console.error('Error fetching certificates:', err);
+    } catch (err: unknown) {
+      const error = castError(err);
+      console.error('Error fetching certificates:', error);
       setError('Failed to load certificates. Please try again.');
     } finally {
       setLoading(false);
@@ -109,8 +110,9 @@ function AdminListCertificates() {
       setCertificates(certificates.filter(cert => cert.mongoId !== certificateToDeleteId));
 
       toast.success('Certificate deleted successfully');
-    } catch (err: any) {
-      console.error('Error deleting certificate:', err);
+    } catch (err: unknown) {
+      const error = castError(err);
+      console.error('Error deleting certificate:', error);
       toast.error('Failed to delete certificate. Please try again.');
     } finally {
       setIsDeleting(false);
