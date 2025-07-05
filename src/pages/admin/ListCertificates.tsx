@@ -33,7 +33,7 @@ import type { Certificate } from '@/types/certificate';
 import { Link } from 'react-router-dom';
 import { toast } from 'react-hot-toast';
 import { castError } from '@/types/error';
-// import { normalizeCertificate } from '@/types/normalizeCertificate';
+import { getCertificateTypeIcon, formatCertificateDate } from '@/utils/certificateHelpers';
 
 function AdminListCertificates() {
   const [certificateToDeleteId, setCertificateToDeleteId] = useState<string | null>(null);
@@ -54,25 +54,6 @@ function AdminListCertificates() {
       cert.issueDate?.toLowerCase().includes(searchTermLower)
     );
   });
-
-  // Format date to a more readable format
-  const formatDate = (dateString: string) => {
-    if (!dateString) return 'N/A';
-    try {
-      const date = new Date(dateString);
-      if (isNaN(date.getTime())) {
-        return 'Invalid Date';
-      }
-      return new Intl.DateTimeFormat('en-US', {
-        year: 'numeric',
-        month: 'short',
-        day: 'numeric'
-      }).format(date);
-    } catch (error) {
-      console.error('Error formatting date:', error);
-      return 'Invalid Date';
-    }
-  };
 
   // Function to fetch certificates
   const fetchCertificates = async () => {
@@ -126,7 +107,10 @@ function AdminListCertificates() {
       <Fade>
         <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
           <div>
-            <h1 className="text-3xl font-bold tracking-tight">Certificates</h1>
+            <h1 className="text-3xl font-bold tracking-tight flex items-center gap-2">
+              <Award className="h-8 w-8 text-orange-500" />
+              Certificates
+            </h1>
             <p className="text-muted-foreground mt-1">Manage all issued certificates</p>
           </div>
           {/* Add Certificate and Reload Buttons */}
@@ -187,17 +171,19 @@ function AdminListCertificates() {
                 <span className="ml-2 text-muted-foreground">Loading certificates...</span>
               </div>
             ) : filteredCertificates.length === 0 && !error ? (
-              <div className="text-center py-8 text-muted-foreground">
-                {searchTerm ? 'No certificates match your search.' : 'No certificates found.'}
+              <div className="text-center py-8 text-muted-foreground flex flex-col items-center gap-3">
+                <Award className="h-12 w-12 text-muted-foreground/50" />
+                <span>{searchTerm ? 'No certificates match your search.' : 'No certificates found.'}</span>
               </div>
             ) : !loading && !error && filteredCertificates.length > 0 ? (
               <div className="rounded-md border overflow-hidden">
                 <Table>
                   <TableHeader>
                     <TableRow>
-                      <TableHead className="w-[100px]">ID</TableHead>
+                      <TableHead className="w-[160px] text-left pl-4">ID</TableHead>
                       <TableHead>Recipient</TableHead>
-                      <TableHead className="hidden md:table-cell">Course</TableHead>
+                      <TableHead className="hidden md:table-cell">Type</TableHead>
+                      <TableHead className="hidden md:table-cell text-left">Title</TableHead>
                       <TableHead className="hidden sm:table-cell">Issue Date</TableHead>
                       <TableHead className="text-right">Actions</TableHead>
                     </TableRow>
@@ -206,22 +192,23 @@ function AdminListCertificates() {
                     {filteredCertificates.map((cert) => {
                       return (
                         <TableRow key={cert.mongoId}>
-                          <TableCell className="font-medium font-mono text-xs">{cert.id}</TableCell>
+                          <TableCell className="font-mono text-xs text-left align-middle truncate max-w-[200px] pl-4">{cert.id}</TableCell>
                           <TableCell className="flex items-center gap-2">
                             <User className="h-4 w-4 text-muted-foreground" />
                             <span>{cert.recipientName}</span>
                           </TableCell>
                           <TableCell className="hidden md:table-cell">
-                            <div className="flex items-center gap-2">
-                              <Award className="h-4 w-4 text-muted-foreground" />
-                              <span>{cert.certificateTitle}</span>
-                            </div>
+                            <span className="flex items-center gap-1">
+                              {getCertificateTypeIcon(cert.certificateType)}
+                              {cert.certificateType ? cert.certificateType.charAt(0).toUpperCase() + cert.certificateType.slice(1) : 'Unknown'}
+                            </span>
                           </TableCell>
+                          <TableCell className="hidden md:table-cell align-middle font-semibold text-left truncate max-w-[200px]">{cert.certificateTitle || 'Unknown'}</TableCell>
                           <TableCell className="hidden sm:table-cell">
-                            <div className="flex items-center gap-2">
+                            <span className="flex items-center gap-1">
                               <Calendar className="h-4 w-4 text-muted-foreground" />
-                              <span>{formatDate(cert.issueDate)}</span>
-                            </div>
+                              <span>{formatCertificateDate(cert.issueDate)}</span>
+                            </span>
                           </TableCell>
                           <TableCell className="text-right">
                             <div className="flex justify-end gap-2">

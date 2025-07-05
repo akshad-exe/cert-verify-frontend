@@ -21,35 +21,13 @@ import { Skeleton } from '@/components/ui/skeleton';
 import { Button } from "@/components/ui/button";
 import type { Certificate } from '@/types/certificate';
 import { castError } from '@/types/error';
+import { getCertificateTypeIcon, formatCertificateDate } from '@/utils/certificateHelpers';
 
 function AdminDashboard() {
   const [totalCertificates, setTotalCertificates] = useState(0);
   const [recentCertificates, setRecentCertificates] = useState<Certificate[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-
-  // Format date to a more readable format
-  const formatDate = (dateString: string) => {
-    if (!dateString) return 'N/A';
-    
-    try {
-      const date = new Date(dateString);
-      
-      // Check if date is valid
-      if (isNaN(date.getTime())) {
-        return 'Invalid Date';
-      }
-      
-      return new Intl.DateTimeFormat('en-US', {
-        year: 'numeric',
-        month: 'short',
-        day: 'numeric'
-      }).format(date);
-    } catch (error) {
-      console.error('Error formatting date:', error);
-      return 'Invalid Date';
-    }
-  };
 
   // Function to fetch dashboard data
   const fetchDashboardData = async () => {
@@ -187,22 +165,29 @@ function AdminDashboard() {
                 <Table>
                   <TableHeader>
                     <TableRow>
-                      <TableHead className="w-[100px]">ID</TableHead>
+                      <TableHead className="w-[160px] text-left pl-4">ID</TableHead>
                       <TableHead>Recipient</TableHead>
-                      <TableHead className="hidden sm:table-cell font-bold px-2 py-2 text-left">Course</TableHead>
+                      <TableHead className="hidden sm:table-cell font-bold px-2 py-2 text-left">Type</TableHead>
+                      <TableHead className="hidden sm:table-cell font-bold px-2 py-2 text-left">Title</TableHead>
                       <TableHead className="text-right">Issue Date</TableHead>
                     </TableRow>
                   </TableHeader>
                   <TableBody>
                     {recentCertificates.map((cert) => (
                       <TableRow key={cert.mongoId}>
-                        <TableCell className="font-medium font-mono text-xs">{cert.id}</TableCell>
+                        <TableCell className="font-mono text-xs text-left align-middle truncate max-w-[200px] pl-4">{cert.id}</TableCell>
                         <TableCell className="flex items-center gap-2">
                           <User className="h-4 w-4 text-muted-foreground" />
                           <span>{cert.recipientName}</span>
                         </TableCell>
-                        <TableCell className="hidden sm:table-cell font-medium truncate px-2 py-2 text-left" title={cert.certificateTitle}>{cert.certificateTitle}</TableCell>
-                        <TableCell className="text-right">{formatDate(cert.issueDate)}</TableCell>
+                        <TableCell className="hidden sm:table-cell font-medium truncate px-2 py-2 text-left" title={cert.certificateType}>
+                          <span className="flex items-center gap-1">
+                            {getCertificateTypeIcon(cert.certificateType)}
+                            {cert.certificateType ? cert.certificateType.charAt(0).toUpperCase() + cert.certificateType.slice(1) : 'Unknown'}
+                          </span>
+                        </TableCell>
+                        <TableCell className="hidden sm:table-cell align-middle font-semibold text-left truncate max-w-[200px] px-2 py-2" title={cert.certificateTitle}>{cert.certificateTitle || 'Unknown'}</TableCell>
+                        <TableCell className="text-right">{formatCertificateDate(cert.issueDate)}</TableCell>
                       </TableRow>
                     ))}
                   </TableBody>

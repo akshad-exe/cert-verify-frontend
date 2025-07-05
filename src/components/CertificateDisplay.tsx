@@ -5,7 +5,6 @@ import { Badge } from '@/components/ui/badge';
 import type { Certificate } from '@/types/certificate';
 import {
     CheckCircle,
-    Award,
     Calendar,
     User,
     Book,
@@ -13,10 +12,8 @@ import {
     ArrowLeft,
     Download,
     Share2,
-    Trophy,
-    Briefcase,
-    Heart
 } from 'lucide-react';
+import { getCertificateTypeIcon, getCertificateTypeLabel, formatCertificateDate } from '@/utils/certificateHelpers';
 
 // Props
 interface CertificateDisplayProps {
@@ -26,37 +23,6 @@ interface CertificateDisplayProps {
 
 // Main Component
 export const CertificateDisplay: React.FC<CertificateDisplayProps> = ({ certificate, onReset }) => {
-    // Format date for display
-    const formatDate = (dateString: string) => {
-        return new Date(dateString).toLocaleDateString('en-US', {
-            year: 'numeric',
-            month: 'long',
-            day: 'numeric'
-        });
-    };
-
-    // Get icon for certificate type
-    const getCertificateTypeIcon = (type: string) => {
-        switch (type) {
-            case 'internship':
-                return <Briefcase className="h-6 w-6 text-orange-500" />;
-            case 'course':
-                return <Book className="h-6 w-6 text-orange-500" />;
-            case 'appreciation':
-                return <Heart className="h-6 w-6 text-orange-500" />;
-            case 'workshop':
-                return <Trophy className="h-6 w-6 text-orange-500" />;
-            default:
-                return <Award className="h-6 w-6 text-orange-500" />;
-        }
-    };
-
-    // Get label for certificate type
-    const getCertificateTypeLabel = (type: string) => {
-        if (!type || typeof type !== 'string') return 'Unknown';
-        return type.charAt(0).toUpperCase() + type.slice(1);
-    };
-
     return (
         <section className="space-y-6 sm:space-y-8 max-w-4xl mx-auto px-4">
             {/* Verification Status */}
@@ -80,7 +46,7 @@ export const CertificateDisplay: React.FC<CertificateDisplayProps> = ({ certific
                     <CardHeader className="bg-gradient-to-r from-orange-500 to-orange-600 text-white p-4 sm:p-6">
                         <header className="flex flex-col sm:flex-row items-start sm:items-center justify-between space-y-3 sm:space-y-0">
                             <div className="flex items-center space-x-3 sm:space-x-4">
-                                {getCertificateTypeIcon(certificate.certificateType)}
+                                {getCertificateTypeIcon(certificate.certificateType, "h-6 w-6")}
                                 <div>
                                     <h3 className="text-xl sm:text-2xl lg:text-3xl font-bold"> {getCertificateTypeLabel(certificate.certificateType)} Certificate </h3>
                                 </div>
@@ -146,7 +112,7 @@ export const CertificateDisplay: React.FC<CertificateDisplayProps> = ({ certific
                                             <Calendar className="h-5 w-5 sm:h-6 sm:w-6 text-orange-500 flex-shrink-0" />
                                             <label className="text-xs sm:text-sm font-bold text-gray-500 uppercase tracking-wide">Issue Date</label>
                                         </div>
-                                        <p className="text-base sm:text-lg lg:text-xl font-semibold text-gray-800 pl-0 m-0">{formatDate(certificate.issueDate)}</p>
+                                        <p className="text-base sm:text-lg lg:text-xl font-semibold text-gray-800 pl-0 m-0">{formatCertificateDate(certificate.issueDate, 'long')}</p>
                                     </div>
                                 </div>
 
@@ -156,7 +122,7 @@ export const CertificateDisplay: React.FC<CertificateDisplayProps> = ({ certific
                                             <Calendar className="h-5 w-5 sm:h-6 sm:w-6 text-orange-500 flex-shrink-0" />
                                             <label className="text-xs sm:text-sm font-bold text-gray-500 uppercase tracking-wide">Expiry Date</label>
                                         </div>
-                                        <p className="text-base sm:text-lg lg:text-xl font-semibold text-gray-800 pl-0 m-0">{formatDate(certificate.expiryDate)}</p>
+                                        <p className="text-base sm:text-lg lg:text-xl font-semibold text-gray-800 pl-0 m-0">{formatCertificateDate(certificate.expiryDate || "", 'long')}</p>
                                     </div>
                                 </div>
 
@@ -179,7 +145,7 @@ export const CertificateDisplay: React.FC<CertificateDisplayProps> = ({ certific
                                 Skills Acquired
                             </h4>
                             <div className="flex flex-wrap gap-2 sm:gap-3">
-                                {certificate.skills.map((skill, index) => (
+                                {(certificate.skills ?? []).map((skill, index) => (
                                     <Badge key={index} variant="secondary" className="bg-orange-100 text-orange-800 px-3 py-1 sm:px-4 sm:py-2 text-xs sm:text-sm font-medium flex items-center gap-1">
                                         <Star className="inline h-3 w-3 mr-1 text-orange-400" />
                                         {skill}
