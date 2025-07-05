@@ -5,10 +5,10 @@ export interface Certificate {
   certificateTitle: string;
   certificateType: 'internship' | 'course' | 'appreciation' | 'workshop';
   issueDate: string;
-  expiryDate: string;
-  instructorName: string;
+  expiryDate?: string;
+  instructorName?: string;
   grade?: string;
-  skills: string[];
+  skills?: string[];
   status: 'valid' | 'expired' | 'revoked';
   duration?: string;
 }

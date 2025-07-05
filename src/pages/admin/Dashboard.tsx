@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { getDashboardData } from '../../api/admin';
 import {
   Card,
