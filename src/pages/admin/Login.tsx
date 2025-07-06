@@ -19,9 +19,8 @@ function AdminLoginPage() {
 
   const handleLogin = async (event: React.FormEvent) => {
     event.preventDefault();
-    setError(null);
     setLoading(true);
-    
+    setError(null);
     try {
       const response = await adminLogin(username, password);
       const token = response.data.token;
@@ -39,6 +38,8 @@ function AdminLoginPage() {
         setError('An unexpected error occurred during login.');
       }
     } finally {
+      setUsername('');
+      setPassword('');
       setLoading(false);
     }
   };

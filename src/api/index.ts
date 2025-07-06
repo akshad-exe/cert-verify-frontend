@@ -31,8 +31,12 @@ api.interceptors.response.use(
     if (error.response && error.response.status === 403) {
       toast.error('Something went wrong. Please login again.');
     }
-    if (error.response && error.response.status === 401) {
-      // Handle unauthorized errors, e.g., redirect to login
+    const originalRequest = error.config;
+    if (
+      error.response &&
+      error.response.status === 401 &&
+      !(originalRequest && originalRequest.url && originalRequest.url.includes('/admin/login'))
+    ) {
       localStorage.removeItem('jwtToken');
       window.location.href = '/admin/login';
     }
