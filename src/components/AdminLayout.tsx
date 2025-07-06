@@ -11,7 +11,6 @@ import {
   Menu,
   X,
   ChevronRight,
-  Award
 } from 'lucide-react';
 import { useEffect, useRef, useState } from 'react';
 import { cn } from '@/lib/utils';
