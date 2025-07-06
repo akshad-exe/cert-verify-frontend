@@ -17,6 +17,7 @@ import { useEffect, useRef, useState } from 'react';
 import { cn } from '@/lib/utils';
 import { Outlet } from 'react-router-dom';
 import { AnimatePresence, motion } from 'framer-motion';
+import techcognitaLogo from '@/assets/techcognita.svg';
 
 interface AdminLayoutProps {
   children?: ReactNode;
@@ -96,9 +97,9 @@ function AdminLayout({ children }: AdminLayoutProps) {
         <div className="h-full flex flex-col overflow-hidden">
           {/* Logo */}
           <div className="p-6 border-b border-gray-200 dark:border-gray-700 flex items-center justify-between">
-            <Link to="/admin/dashboard" className="flex items-center space-x-2">
-              <Award className="h-8 w-8 text-primary" />
-              <span className="text-xl font-bold text-gray-800 dark:text-white">TechCognita</span>
+            <Link to="/admin/dashboard" className="flex items-center space-x-2 group">
+              <img src={techcognitaLogo} alt="TechCognita Logo" className="h-9 w-9 object-contain transition-transform group-hover:scale-105" />
+              <span className="text-xl font-bold text-gray-800 dark:text-white tracking-tight">TechCognita</span>
             </Link>
             <div className={cn("transition-opacity duration-300", sidebarOpen ? "opacity-100" : "opacity-0 md:opacity-100")}>
               <ModeToggle />
